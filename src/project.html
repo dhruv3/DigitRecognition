@@ -1,0 +1,61 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Captcha Digit Recognition</title>
+    <meta name="description" content="Rutgers University, Introduction to Data Structures and Algorithms Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="myCSS.css">
+  </head>
+  <body style="padding:5px;">
+
+    <div class="container bs-docs-container">
+      <h1>Digit Recognition from Image Inputs</h1>
+      <div class="container">
+        <div><h3>Draw or upload an image containing digit in the left block.</h3></div>
+        <div class="innerContainer">
+
+          <div class="canvasImg">
+            <img id="img" src="" width="0px" height="280"/>
+            <canvas id="can" width="280" height="280" style="border:2px solid;"></canvas>
+          </div>
+            <div class="buttonCheckBox">
+                <!--<input type="file" name="pic" accept="image/*" onchange="previewFile()"><br>-->
+
+                <div class="fileUpload btn btn-primary">
+                    <span>Upload</span>
+                    <input type="file" class="upload" onchange="previewFile()"/>
+                </div>
+                <div id="recogBtn" style="float:left;"><input class="myBtn" type="button" value="Recognize" id="recognize" size="23" onclick="recognize()"></div>
+                <div id="canClrBtn" style="float:left;padding-right:10px;"><input class="myBtn" type="button" value="Clear Canvas" id="clr" size="23" onclick="erase()"></div>
+                <div id="nnInput"></div>
+            </div>
+            <div class="rightContainer">
+                <div id="nnOut">
+                </div>
+            </div>
+
+        </div>
+      </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close">×</span>
+                    <h2 class="modal-header-content">Alert!</h2>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-body-content" style="font-size: x-large;">Please enter a valid image.</p>
+                    <input class="myBtn" type="button" value="Yes!" id="yesBtn" size="23" onclick="answer(true)" style="display: none">
+                    <input class="myBtn" type="button" value="No!" id="noBtn" size="23" onclick="answer(false)" style="display: none">
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="myScript.js"></script>
+    </div>
+  </body>
+</html>
