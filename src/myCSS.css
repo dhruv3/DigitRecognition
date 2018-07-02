@@ -4,25 +4,23 @@ body{
     background: linear-gradient(to left, #EFEFBB , #D4D3DD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.container{
-    height: 400px;
-}
-
-h1, h3{
-    text-align: center;
-}
-
-.innerContainer{
-    float:left;
-    width: 100%;
-    height: calc(100% - 30px);
-}
-
-.canvasImg{
-    width: 40%;
-    display: inline-block;
-    float: left;
+html, body {
+    margin: 0;
     height: 100%;
+}
+
+.mainWrapper{
+  height: 100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.headerContainer{
+  justify-content: center;
+}
+
+.ipOpContainer{
+  flex-grow: 1;
 }
 
 #can{

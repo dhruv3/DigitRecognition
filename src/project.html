@@ -6,36 +6,31 @@
     <title>Captcha Digit Recognition</title>
     <meta name="description" content="Rutgers University, Introduction to Data Structures and Algorithms Project">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="myCSS.css">
+    <link rel="stylesheet" href="myCSS.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
-  <body style="padding:5px;">
-
-    <div class="container bs-docs-container">
-      <h1>Digit Recognition from Image Inputs</h1>
+  <body>
+    <div class="container mainWrapper">
       <div class="container">
-        <div><h3>Draw or upload an image containing digit in the left block.</h3></div>
-        <div class="innerContainer">
-
-          <div class="canvasImg">
-            <img id="img" src="" width="0px" height="280"/>
+        <div class="row headerContainer">
+          <h1>Digit Recognition from Image Inputs</h1>
+          <h3>Draw or upload an image containing digit in the left block.</h3>
+        </div>
+      </div>
+      <div class="container ipOpContainer">
+        <div class="row">
+          <div class="col-lg-5" id="canvasContainer">
             <canvas id="can" width="280" height="280" style="border:2px solid;"></canvas>
           </div>
-            <div class="buttonCheckBox">
-                <!--<input type="file" name="pic" accept="image/*" onchange="previewFile()"><br>-->
-
-                <div class="fileUpload btn btn-primary">
-                    <span>Upload</span>
-                    <input type="file" class="upload" onchange="previewFile()"/>
-                </div>
-                <div id="recogBtn" style="float:left;"><input class="myBtn" type="button" value="Recognize" id="recognize" size="23" onclick="recognize()"></div>
-                <div id="canClrBtn" style="float:left;padding-right:10px;"><input class="myBtn" type="button" value="Clear Canvas" id="clr" size="23" onclick="erase()"></div>
-                <div id="nnInput"></div>
-            </div>
-            <div class="rightContainer">
-                <div id="nnOut">
-                </div>
-            </div>
-
+          <div class="buttonCheckBox col-lg-2">
+              <div id="recogBtn" style="float:left;"><input class="myBtn" type="button" value="Recognize" id="recognize" size="23" onclick="recognize()"></div>
+              <div id="canClrBtn" style="float:left;padding-right:10px;"><input class="myBtn" type="button" value="Clear Canvas" id="clr" size="23" onclick="erase()"></div>
+              <div id="nnInput"></div>
+          </div>
+          <div class="rightContainer col-lg-5">
+              <div id="nnOut">
+              </div>
+          </div>
         </div>
       </div>
         <!-- The Modal -->

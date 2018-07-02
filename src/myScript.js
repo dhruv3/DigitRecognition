@@ -1,34 +1,4 @@
-
-   function previewFile(){
-       var preview = document.querySelector('img'); //selects the query named img
-       var file    = document.querySelector('input[type=file]').files[0]; //sames as here
-       var reader  = new FileReader();
-
-       reader.onloadend = function () {
-           preview.src = reader.result;
-           var inputImg = document.getElementById("img");
-           ctx.clearRect(0, 0, canvas.width, canvas.height);
-           ctx.drawImage(inputImg,0,0,280,280);
-       };
-
-       if (file) {
-           if(file.type.includes("image")){
-               reader.readAsDataURL(file); //reads the data as a URL
-               flagIfDrawn =true;
-           }
-           else{
-               var modal = document.getElementById('myModal');
-               modal.style.display = "block";
-               modal.querySelector('.modal-body-content').innerHTML = "Please enter a valid image.";
-           }
-
-       } else {
-           preview.src = "";
-       }
-  }
-
-	previewFile();  //calls the function named previewFile()
-      // A lot of the code was adapted from Hubert Eichner 
+  // A lot of the code was adapted from Hubert Eichner
 
    var flagIfDrawn = false;
 
@@ -43,7 +13,7 @@
       var paintFlag = false;
       var color = "black";
       var lineWidth = 20;
-          
+
       var clearBeforeDraw = false; // controls whether canvas will be cleared on next mousedown event. Set to true after digit recognition
 
       // the neural network's weights (unit-unit weights, and unit biases)
@@ -171,7 +141,7 @@
             out3[i] += out2[j] * w23[i][j];
           }
         }
-        // get layer3 softmax 
+        // get layer3 softmax
         var max3 = out3.reduce(function(p,c) { return p>c ? p : c; });
         var nominators = out3.map(function(e) { return Math.exp(e - max3); });
         var denominator = nominators.reduce(function (p, c) { return p + c; });
@@ -198,7 +168,7 @@
         }
         meanX /= sumPixels;
         meanY /= sumPixels;
-        
+
         var dY = Math.round(rows/2 - meanY);
         var dX = Math.round(columns/2 - meanX);
         return {transX: dX, transY: dY};
@@ -246,10 +216,10 @@
       }
 
       // takes image in canvas,
-	  // centers and resizes it, then puts into 10x10 px bins, to 
+	  // centers and resizes it, then puts into 10x10 px bins, to
 	  // 28x28 grayscale image;
       // get probability using NN
-      function recognize() {     
+      function recognize() {
 	    if(flagIfDrawn == false){
             var modal = document.getElementById('myModal');
             modal.style.display = "block";
@@ -259,10 +229,10 @@
 
         var imgData = ctx.getImageData(0, 0, 280, 280);
         grayscaleImg = convertToGrayScale(imgData);
-      
+
         var boundingRectangle = getContainer(grayscaleImg, 0.01);
         var trans = moveTocenter(grayscaleImg); // [dX, dY] to center of mass
-        
+
         var canvasCopy = document.createElement("canvas");
         canvasCopy.width = imgData.width;
         canvasCopy.height = imgData.height;
@@ -276,11 +246,11 @@
         copyCtx.translate(-canvas.width/2, -canvas.height/2);
         // translate to center of mass
         copyCtx.translate(trans.transX, trans.transY);
-        
+
         // Draw image
-        
+
         copyCtx.drawImage(ctx.canvas, 0, 0);
-             
+
         imgData = copyCtx.getImageData(0, 0, 280, 280);
         grayscaleImg = convertToGrayScale(imgData);
         var nnInput = new Array(784);
@@ -299,7 +269,7 @@
               nnInput[x*28+y] = 1- mean;
           }
         }
- 
+
         var chosenIndex = 0;
         var neuralNetOutput = nn(nnInput, w12, bias2, w23, bias3);
         console.log(neuralNetOutput);
@@ -360,7 +330,7 @@
            console.log(jsonObject);
        }
    }
-          
+
       function init() {
           canvas = document.getElementById('can');
           ctx = canvas.getContext("2d");
@@ -377,8 +347,6 @@
           canvas.addEventListener("mouseout", function (e) {
               getCoordinates('out', e)
           }, false);
-
-          document.getElementById('img').style.visibility ='hidden';
 
           // Get the modal
           var modal = document.getElementById('myModal');
@@ -418,11 +386,13 @@
           flagIfDrawn = false;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           document.getElementById('nnOut').innerHTML = '';
-          document.getElementById('img').src = "";
       }
 
       function getCoordinates(res, e) {
           flagIfDrawn = true;
+          var canvasContainer = document.getElementById('canvasContainer');
+          var canvasContainerLeft = canvasContainer.offsetLeft;
+          var canvasContainerTop = canvasContainer.offsetTop;
           if (res == 'down') {
               if (clearBeforeDraw == true) {
                 ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -431,17 +401,17 @@
                 paths = [];
                 clearBeforeDraw = false;
               }
-              
+
               if (e.pageX != undefined && e.pageY != undefined) {
-                currX = e.pageX-canvas.offsetLeft;
-                currY = e.pageY-canvas.offsetTop;
+                currX = e.pageX-canvas.offsetLeft - canvasContainerLeft;
+                currY = e.pageY-canvas.offsetTop - canvasContainerTop;
               } else {
                 currX = e.clientX + document.body.scrollLeft
                         + document.documentElement.scrollLeft
-                        - canvas.offsetLeft;
+                        - canvas.offsetLeft - canvasContainerLeft;
                 currY = e.clientY + document.body.scrollTop
                         + document.documentElement.scrollTop
-                        - canvas.offsetTop;
+                        - canvas.offsetTop - canvasContainerTop;
               }
               ctx.beginPath();
               ctx.lineWidth = 1;
@@ -449,28 +419,28 @@
               ctx.stroke();
               ctx.closePath();
               ctx.fill();
-              
+
               paths.push([[currX], [currY]]);
               paintFlag = true;
           }
           if (res == 'up' || res == "out") {
               paintFlag = false;
           }
-          
+
           if (res == 'move') {
               if (paintFlag) {
                   prevX = currX;
                   prevY = currY;
                   if (e.pageX != undefined && e.pageY != undefined) {
-                    currX = e.pageX-canvas.offsetLeft;
-                    currY = e.pageY-canvas.offsetTop;
+                    currX = e.pageX-canvas.offsetLeft - canvasContainerLeft;
+                    currY = e.pageY-canvas.offsetTop - canvasContainerTop;
                   } else {
                     currX = e.clientX + document.body.scrollLeft
                             + document.documentElement.scrollLeft
-                            - canvas.offsetLeft;
+                            - canvas.offsetLeft - canvasContainerLeft;
                     currY = e.clientY + document.body.scrollTop
                             + document.documentElement.scrollTop
-                            - canvas.offsetTop;
+                            - canvas.offsetTop - canvasContainerTop;
                   }
                   currPath = paths[paths.length-1];
                   currPath[0].push(currX);
