@@ -220,13 +220,6 @@
 	  // 28x28 grayscale image;
       // get probability using NN
       function recognize() {
-	    if(flagIfDrawn == false){
-            var modal = document.getElementById('myModal');
-            modal.style.display = "block";
-            modal.querySelector('.modal-body-content').innerHTML = "Please draw or upload an image.";
-            return;
-        }
-
         var imgData = ctx.getImageData(0, 0, 280, 280);
         grayscaleImg = convertToGrayScale(imgData);
 
@@ -277,50 +270,13 @@
         console.log('chosenIndex: '+chosenIndex);
         document.getElementById('nnOut').innerHTML=chosenIndex;
         clearBeforeDraw = true;
-
-//          setTimeout(
-//              function(){
-                  var modal = document.getElementById('myModal');
-                  modal.style.display = "block";
-                  var yBtn = document.getElementById('yesBtn');
-                  yBtn.style.display = "inline-block";
-                  var nBtn = document.getElementById('noBtn');
-                  nBtn.style.display = "inline-block";
-                  modal.querySelector('.modal-header-content').innerHTML = "Is the answer correct?";
-                  modal.querySelector('.modal-body-content').style.display = "none";
-//          },
-//              500);
-
-//          setTimeout(
-//              function(){
-//                  var modal = document.getElementById('myModal');
-//                  modal.style.display = "none";
-//                  var yBtn = document.getElementById('yesBtn');
-//                  yBtn.style.display = "none";
-//                  var nBtn = document.getElementById('noBtn');
-//                  nBtn.style.display = "none";
-//                  modal.querySelector('.modal-header-content').innerHTML = "Alert!";
-//                  modal.querySelector('.modal-header-content').innerHTML = "Is the answer correct?";
-//                  modal.querySelector('.modal-body-content').style.display = "block";
-//              },
-//              3500);
       }
 
    var jsonObject ={};
    var countElem = 0;
 
    function answer(param){
-       //remove the pop up
-       var modal = document.getElementById('myModal');
-       modal.style.display = "none";
-       var yBtn = document.getElementById('yesBtn');
-       yBtn.style.display = "none";
-       var nBtn = document.getElementById('noBtn');
-       nBtn.style.display = "none";
-       modal.querySelector('.modal-header-content').innerHTML = "Alert!";
-       modal.querySelector('.modal-body-content').style.display = "block";
-
-       //save response if wrong guess by NN
+      //save response if wrong guess by NN
        if(param == false){
            var nnAnswer = document.getElementById('nnOut').innerHTML;
            var userImage = ctx.getImageData(0, 0, 280, 280);
@@ -347,26 +303,6 @@
           canvas.addEventListener("mouseout", function (e) {
               getCoordinates('out', e)
           }, false);
-
-          // Get the modal
-          var modal = document.getElementById('myModal');
-
-
-        // Get the <span> element that closes the modal
-          var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks on <span> (x), close the modal
-          span.onclick = function() {
-              modal.style.display = "none";
-          };
-
-        // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-              if (event.target == modal) {
-                  modal.style.display = "none";
-              }
-          }
-
       }
 
       // draws a line from (x1, y1) to (x2, y2) with nice rounded caps
